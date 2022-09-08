@@ -52,6 +52,9 @@ merged_env_dma8_df_dropna = merged_env_dma8_df.dropna()
 print('Check on length of dropnaed data:', len(merged_env_dma8_df_dropna))
 # Here we are setting up the time_idx aspect of the work.
 
+# think here about whether we want the dropnaed version or the version with nans...we most likely want with nans
+# then deal with it in prep for model ingestion
+
 # merged_env_dma8_df_dropna.dtypes
 merged_env_dma8_df['datetime'] = pd.to_datetime(merged_env_dma8_df['datetime'], format='%Y-%m-%d')
 merged_env_dma8_df['raw_time_idx'] = merged_env_dma8_df['datetime'].apply(lambda x: x.toordinal())

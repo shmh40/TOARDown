@@ -53,17 +53,17 @@ print('Check on length of dropnaed data:', len(merged_env_dma8_df_dropna))
 # Here we are setting up the time_idx aspect of the work.
 
 # merged_env_dma8_df_dropna.dtypes
-merged_env_dma8_df_dropna['datetime'] = pd.to_datetime(merged_env_dma8_df_dropna['datetime'], format='%Y-%m-%d')
-merged_env_dma8_df_dropna['raw_time_idx'] = merged_env_dma8_df_dropna['datetime'].apply(lambda x: x.toordinal())
-print(max(merged_env_dma8_df_dropna['raw_time_idx']))
-merged_env_dma8_df_dropna['time_idx_large_temp'] = merged_env_dma8_df_dropna['raw_time_idx'] + 1000000
+merged_env_dma8_df['datetime'] = pd.to_datetime(merged_env_dma8_df['datetime'], format='%Y-%m-%d')
+merged_env_dma8_df['raw_time_idx'] = merged_env_dma8_df['datetime'].apply(lambda x: x.toordinal())
+print(max(merged_env_dma8_df['raw_time_idx']))
+merged_env_dma8_df['time_idx_large_temp'] = merged_env_dma8_df['raw_time_idx'] + 1000000
 
 # here we are doing the timeidx for each station.
 
 new_data = pd.DataFrame()
 
-for s in list(merged_env_dma8_df_dropna['station_name'].unique()):
-    data_subset = merged_env_dma8_df_dropna[merged_env_dma8_df_dropna["station_name"] == s]
+for s in list(merged_env_dma8_df['station_name'].unique()):
+    data_subset = merged_env_dma8_df[merged_env_dma8_df["station_name"] == s]
     data_subset['time_idx_new'] = data_subset['time_idx_large_temp'] - max(data_subset['raw_time_idx'])
     print(max(data_subset['time_idx_new']))
     new_data = pd.concat([new_data, data_subset])
@@ -75,3 +75,5 @@ new_data["time_idx"] = new_data['time_idx_new']
 # could create the directory here, but this has already been done!
 
 new_data.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_all_data_timeidx.csv', index=False)
+
+# this dataframe (which has nans), can then be dealt with before ingesting into algorithm, depending on need for NO or NO2 for example.

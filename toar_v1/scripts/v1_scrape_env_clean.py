@@ -119,14 +119,14 @@ df_cloudcover['cloudcover'] = df_cloudcover['average_values']
 
 # drop unnecessary columns...
 
-df_temp_dropped_cols = df_temp.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_press_dropped_cols = df_press.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_u_dropped_cols = df_u.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_v_dropped_cols = df_v.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_totprecip_dropped_cols = df_totprecip.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_pblheight_dropped_cols = df_pblheight.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_relhum_dropped_cols = df_relhum.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_cloudcover_dropped_cols = df_cloudcover.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_temp_dropped_cols = df_temp.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_press_dropped_cols = df_press.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_u_dropped_cols = df_u.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_v_dropped_cols = df_v.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_totprecip_dropped_cols = df_totprecip.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_pblheight_dropped_cols = df_pblheight.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_relhum_dropped_cols = df_relhum.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_cloudcover_dropped_cols = df_cloudcover.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
 
 try:
     dfs = [df_temp_dropped_cols, df_press_dropped_cols, df_u_dropped_cols, df_v_dropped_cols, df_totprecip_dropped_cols, df_pblheight_dropped_cols, df_relhum_dropped_cols, df_cloudcover_dropped_cols]

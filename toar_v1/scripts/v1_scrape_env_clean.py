@@ -21,7 +21,7 @@ from functools import reduce
 
 country_for_url = 'Sweden'
 country = 'Sweden'
-todays_date='080922'
+todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.
 
@@ -160,7 +160,7 @@ path = '/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country
 try: 
     os.makedirs(path) 
 except OSError as error: 
-    print(error)                        
+    print('Do not worry, this error is being skipped', error)                      
 
                       
 

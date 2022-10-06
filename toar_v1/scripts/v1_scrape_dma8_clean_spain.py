@@ -24,8 +24,8 @@ from functools import reduce
 
 # set the global variables: the country we are selecting, and today's date!
 
-country_for_url = 'Sweden'
-country = 'Sweden'
+country_for_url = 'Spain'
+country = 'Spain'
 todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.
@@ -125,7 +125,7 @@ df_no_dropped_cols = df_no.drop(['dma8', 'series_id', 'variable_name', 'variable
 try:
     dfs = [df_o3_dropped_cols, df_no2_dropped_cols, df_no_dropped_cols]
 except: 
-    print('One or more of the dfs is missing')
+    print('Do not worry, this error is being skipped', error)
     
     
 #merge all DataFrames into one
@@ -154,7 +154,7 @@ path = '/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country
 try: 
     os.makedirs(path) 
 except OSError as error: 
-    print('Do not worry, this error is being skipped', error)                        
+    print(error)                        
 
                       
 # write file with dma8eu strict or non strict!

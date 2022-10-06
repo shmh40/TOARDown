@@ -24,8 +24,8 @@ from functools import reduce
 
 # set the global variables: the country we are selecting, and today's date!
 
-country_for_url = 'Sweden'
-country = 'Sweden'
+country_for_url = 'Italy'
+country = 'Italy'
 todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.
@@ -154,7 +154,7 @@ path = '/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country
 try: 
     os.makedirs(path) 
 except OSError as error: 
-    print('Do not worry, this error is being skipped', error)                        
+    print('Do not worry, this error is being skipped', error)                       
 
                       
 # write file with dma8eu strict or non strict!

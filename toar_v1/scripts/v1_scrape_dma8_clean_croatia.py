@@ -24,8 +24,8 @@ from functools import reduce
 
 # set the global variables: the country we are selecting, and today's date!
 
-country_for_url = 'Finland'
-country = 'Finland'
+country_for_url = 'Croatia'
+country = 'Croatia'
 todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.

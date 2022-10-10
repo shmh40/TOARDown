@@ -18,15 +18,11 @@ from functools import reduce
 ## Here reading in the dropna'ed data, and the raw data
 
 # just need to swap the country in here!
-# also need to have dma8 or dma8_non_strict for the chemical data, defined by the string sampling here...
 
 country = 'Sweden'
-sampling = 'dma8_non_strict' # or 'dma8'
 
-
-
-country_dma8_df = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/'+sampling+'_data.csv')
-country_dma8_df_dropna = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/'+sampling+'_dropna_data.csv')
+country_dma8_df = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/dma8_data.csv')
+country_dma8_df_dropna = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/dma8_dropna_data.csv')
 
 country_env_df = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_data.csv')
 country_env_df_dropna = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_dropna_data.csv')
@@ -45,7 +41,6 @@ merged_env_dma8_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetim
 
 
 # here replacing -1.0s and -999.0s with nans...allows easier dropping of nan values
-# I think this has already been done, but we can do it here too, we expect the same result.
 
 merged_env_dma8_df = merged_env_dma8_df.replace(-1.0, np.nan)
 merged_env_dma8_df = merged_env_dma8_df.replace(-999.0, np.nan)

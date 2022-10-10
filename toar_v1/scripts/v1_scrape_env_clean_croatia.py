@@ -2,11 +2,6 @@
 
 # when we concat we do not change the dytpes in the same way I don't think...or maybe different version of pandas
 
-# key things: 
-# * dma8eu or dma8eu_strict
-# dropnaed version and total version
-# country and date...
-
 # Our imports for this script
 
 import pandas as pd
@@ -24,28 +19,22 @@ from functools import reduce
 
 # set the global variables: the country we are selecting, and today's date!
 
-country_for_url = 'Finland'
-country = 'Finland'
+country_for_url = 'Croatia'
+country = 'Croatia'
 todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.
 
 BASEURL = "https://join.fz-juelich.de/services/rest/surfacedata/"
 
-URL1 = "search/?station_country="+country_for_url+"&parameter_name=o3,no,no2,pm2p5&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
+#URL1 = "search/?station_country=France&parameter_name=o3,no,no2,pm2p5&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
 
-# select mean O3
+URL1 = "search/?station_country="+country+"&parameter_name=press,u,v,relhum,cloudcover,temp,totprecip,co,benzene,toluene,pblheight,ch4,aswdifu,aswdir,irradiance&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
 
-#URL2 = "stats/?id=%i&sampling=daily&statistics=average_values&format=json"
+# select whole day average
 
-# select daytime average, typically for environmental data
+URL2 = "stats/?id=%i&sampling=daily&statistics=average_values&format=json"
 
-#URL2 = "stats/?id=%i&sampling=daily&statistics=daytime_avg&format=json"
-
-# select O3 dma8eu_strict...need different ones for China...
-# dma8eu or dma8eu_strict here...
-
-URL2 = "stats/?id=%i&sampling=daily&statistics=dma8eu,data_capture&format=json"
 
 # ***************************************************
 # Find all the sites and their associated data series
@@ -81,8 +70,8 @@ for s in metadata:
             
         # may need to change between average values and dma8, depending on whether we are looking for env or dma8
         new_row = pd.DataFrame({'series_id': series, 
-                       #'average_values': data['mean'], 
-                       'dma8': data['dma8eu'], # choose here whether we have dma8eu or dma8eu_strict
+                       'average_values': data['mean'], 
+                       #'dma8': data['dma8eu_strict'],
                        'datetime':data['datetime'], 
                        #'data_capture': data['data_capture'],
                        'country':data['metadata']['station_country'], 
@@ -106,30 +95,47 @@ for s in metadata:
             # append all these individual series to the initially empty dataframe that was instantiated earlier
         #df_test = df_test.append(new_row, ignore_index = True)
         df_test = pd.concat([df_test, new_row], axis=0, ignore_index = True)
-        
 
-df_o3 = df_test[df_test['variable_name']=='o3']
-df_no2 = df_test[df_test['variable_name']=='no2']
-df_no = df_test[df_test['variable_name']=='no']
 
-df_no['no'] = df_no['dma8']
-df_no2['no2'] = df_no2['dma8']
-df_o3['o3'] = df_o3['dma8']
+df_temp = df_test[df_test['variable_name']=='temp']
+df_press = df_test[df_test['variable_name']=='press']
+df_u = df_test[df_test['variable_name']=='u']
+df_v = df_test[df_test['variable_name']=='v']
+df_totprecip = df_test[df_test['variable_name']=='totprecip']
+df_pblheight = df_test[df_test['variable_name']=='pblheight']
+df_relhum = df_test[df_test['variable_name']=='relhum']
+df_cloudcover = df_test[df_test['variable_name']=='cloudcover']
+
+
+df_temp['temp'] = df_temp['average_values']
+df_press['press'] = df_press['average_values']
+df_u['u'] = df_u['average_values']
+df_v['v'] = df_v['average_values']
+df_totprecip['totprecip'] = df_totprecip['average_values']
+df_pblheight['pblheight'] = df_pblheight['average_values']
+df_relhum['relhum'] = df_relhum['average_values']
+df_cloudcover['cloudcover'] = df_cloudcover['average_values']
+
 
 # drop unnecessary columns...
 
-df_o3_dropped_cols = df_o3.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_no2_dropped_cols = df_no2.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
-df_no_dropped_cols = df_no.drop(['dma8', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_temp_dropped_cols = df_temp.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_press_dropped_cols = df_press.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_u_dropped_cols = df_u.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_v_dropped_cols = df_v.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_totprecip_dropped_cols = df_totprecip.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_pblheight_dropped_cols = df_pblheight.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_relhum_dropped_cols = df_relhum.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
+df_cloudcover_dropped_cols = df_cloudcover.drop(['average_values', 'series_id', 'variable_name', 'variable_label', 'units', 'measurement_method'], axis=1)
 
 try:
-    dfs = [df_o3_dropped_cols, df_no2_dropped_cols, df_no_dropped_cols]
+    dfs = [df_temp_dropped_cols, df_press_dropped_cols, df_u_dropped_cols, df_v_dropped_cols, df_totprecip_dropped_cols, df_pblheight_dropped_cols, df_relhum_dropped_cols, df_cloudcover_dropped_cols]
 except: 
     print('One or more of the dfs is missing')
     
     
 #merge all DataFrames into one
-final_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'country', 'station_name', 'lat', 'lon', 'alt', 'station_etopo_alt',  
+final_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'country', 'station_name', 'lat', 'lon', 'alt', 'station_etopo_alt', 
                                                               'station_rel_etopo_alt', 'station_type', 	'landcover', 
                                                               'toar_category', 'pop_density', 'max_5km_pop_density', 'max_25km_pop_density', 
                                                               'nightlight_1km', 'nightlight_max_25km', 'nox_emi', 'omi_nox'],
@@ -149,7 +155,7 @@ final_df_sorted_dropna = final_df_sorted.dropna()
 
 
 # make a directory to save files in if it doesn't already exist with path 
-path = '/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/'
+path = '/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/'
                       
 try: 
     os.makedirs(path) 
@@ -157,6 +163,6 @@ except OSError as error:
     print('Do not worry, this error is being skipped', error)                     
 
                       
-# write file with dma8eu strict or non strict!
-final_df_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/dma8_non_strict_data.csv', index=False)
-final_df_sorted_dropna.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/dma8_non_strict_dropna_data.csv', index=False)
+
+final_df_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_data.csv', index=False)
+final_df_sorted_dropna.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_dropna_data.csv', index=False)

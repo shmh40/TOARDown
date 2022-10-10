@@ -24,8 +24,8 @@ from functools import reduce
 
 # set the global variables: the country we are selecting, and today's date!
 
-country_for_url = 'France'
-country = 'France'
+country_for_url = 'Greece'
+country = 'Greece'
 todays_date='061022'
 
 # define the URLs of the TOAR v1 dataset that we are interested in.
@@ -80,28 +80,31 @@ for s in metadata:
         print(data['metadata']['station_name'], data['metadata']['station_country'])
             
         # may need to change between average values and dma8, depending on whether we are looking for env or dma8
-        new_row = pd.DataFrame({'series_id': series, 
-                       #'average_values': data['mean'], 
-                       'dma8': data['dma8eu'], # choose here whether we have dma8eu or dma8eu_strict
-                       'datetime':data['datetime'], 
-                       #'data_capture': data['data_capture'],
-                       'country':data['metadata']['station_country'], 
-                       'variable_name':data['metadata']['parameter_name'],
-                       'variable_label':data['metadata']['parameter_label'],               
-                       'units':data['metadata']['parameter_original_units'],
-                       'station_etopo_alt':data['metadata']['station_etopo_alt'],
-                       'station_rel_etopo_alt':data['metadata']['station_etopo_relative_alt'],
-                       'lat':s[4],'lon':s[5],'nox_emi':data['metadata']['station_nox_emissions'], 
-                       'omi_nox':data['metadata']['station_omi_no2_column'],
-                       'station_name':data['metadata']['station_name'], 'station_type':data['metadata']['station_type'],
-                       'alt':data['metadata']['station_alt'], 'landcover':data['metadata']['station_dominant_landcover'],
-                       'pop_density':data['metadata']['station_population_density'],
-                       'max_5km_pop_density':data['metadata']['station_max_population_density_5km'],
-                       'max_25km_pop_density':data['metadata']['station_max_population_density_25km'],
-                       'nightlight_1km':data['metadata']['station_nightlight_1km'], 
-                       'nightlight_max_25km':data['metadata']['station_max_nightlight_25km'],
-                       'toar_category':data['metadata']['station_toar_category'], 
-                       'measurement_method':data['metadata']['parameter_measurement_method']})
+        try:
+            new_row = pd.DataFrame({'series_id': series, 
+                           #'average_values': data['mean'], 
+                           'dma8': data['dma8eu'], # choose here whether we have dma8eu or dma8eu_strict
+                           'datetime':data['datetime'], 
+                           #'data_capture': data['data_capture'],
+                           'country':data['metadata']['station_country'], 
+                           'variable_name':data['metadata']['parameter_name'],
+                           'variable_label':data['metadata']['parameter_label'],               
+                           'units':data['metadata']['parameter_original_units'],
+                           'station_etopo_alt':data['metadata']['station_etopo_alt'],
+                           'station_rel_etopo_alt':data['metadata']['station_etopo_relative_alt'],
+                           'lat':s[4],'lon':s[5],'nox_emi':data['metadata']['station_nox_emissions'], 
+                           'omi_nox':data['metadata']['station_omi_no2_column'],
+                           'station_name':data['metadata']['station_name'], 'station_type':data['metadata']['station_type'],
+                           'alt':data['metadata']['station_alt'], 'landcover':data['metadata']['station_dominant_landcover'],
+                           'pop_density':data['metadata']['station_population_density'],
+                           'max_5km_pop_density':data['metadata']['station_max_population_density_5km'],
+                           'max_25km_pop_density':data['metadata']['station_max_population_density_25km'],
+                           'nightlight_1km':data['metadata']['station_nightlight_1km'], 
+                           'nightlight_max_25km':data['metadata']['station_max_nightlight_25km'],
+                           'toar_category':data['metadata']['station_toar_category'], 
+                           'measurement_method':data['metadata']['parameter_measurement_method']})
+        except KeyError as error:
+            print('No dma8eu in this record', error)
         #print(new_row)
             # append all these individual series to the initially empty dataframe that was instantiated earlier
         #df_test = df_test.append(new_row, ignore_index = True)

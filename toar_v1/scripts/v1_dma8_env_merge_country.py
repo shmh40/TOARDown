@@ -89,6 +89,9 @@ new_data_sorted = new_data.sort_values(['station_name', 'time_idx'], ignore_inde
 duplicateRows = new_data_sorted[new_data_sorted.duplicated()]
 print('Number of duplicate rows:', len(duplicateRows))
 
+# I think what I need to do here is to drop duplicates on the dataframe based on datetime...having sorted by no2 too?
+# this way we get rid of duplicate records...but really i want to remove the row with the most nans in it. This seems unclear in the pandas docs
+
 # could create the directory here, but this has already been done!
 
 new_data_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_'+sampling+'_all_data_timeidx.csv', index=False)

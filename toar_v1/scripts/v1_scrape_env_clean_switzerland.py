@@ -29,7 +29,7 @@ BASEURL = "https://join.fz-juelich.de/services/rest/surfacedata/"
 
 #URL1 = "search/?station_country=France&parameter_name=o3,no,no2,pm2p5&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
 
-URL1 = "search/?station_country="+country+"&parameter_name=press,u,v,relhum,cloudcover,temp,totprecip,co,benzene,toluene,pblheight,ch4,aswdifu,aswdir,irradiance&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
+URL1 = "search/?station_country="+country_for_url+"&parameter_name=press,u,v,relhum,cloudcover,temp,totprecip,co,benzene,toluene,pblheight,ch4,aswdifu,aswdir,irradiance&columns=id,network_name,station_id,station_country,station_lat,station_lon&format=json"
 
 # select whole day average
 
@@ -163,6 +163,5 @@ except OSError as error:
     print('Do not worry, this error is being skipped', error)                      
 
                       
-
 final_df_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_data.csv', index=False)
 final_df_sorted_dropna.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/env/env_dropna_data.csv', index=False)

@@ -84,7 +84,10 @@ new_data["time_idx"] = new_data['time_idx_new']
 
 # sort the dataframe by station_name and by time_idx
 
-new_data_sorted = new_data.sort_values(['station_name', 'time_idx'])
+new_data_sorted = new_data.sort_values(['station_name', 'time_idx'], ignore_index=True)
+
+duplicateRows = new_data_sorted[new_data_sorted.duplicated()]
+print('Number of duplicate rows:', len(duplicateRows))
 
 # could create the directory here, but this has already been done!
 

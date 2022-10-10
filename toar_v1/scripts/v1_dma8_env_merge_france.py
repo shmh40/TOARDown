@@ -39,7 +39,7 @@ print('Data loading complete')
 dfs = [country_dma8_df, country_env_df]
 
 #merge all DataFrames into one
-merged_env_dma8_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'station_name', 'country', 'lat', 'lon', 'alt', 'station_etopo_alt', 
+merged_env_dma8_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'station_name', 'lat', 'lon', 'alt', 'station_etopo_alt', 
                                                                         'station_rel_etopo_alt', 'station_type', 'landcover', 'toar_category', 
                                                                         'pop_density', 'max_5km_pop_density', 'max_25km_pop_density', 
                                                                         'nightlight_1km', 'nightlight_max_25km', 'nox_emi', 'omi_nox'],
@@ -82,13 +82,9 @@ for s in list(merged_env_dma8_df['station_name'].unique()):
 
 new_data["time_idx"] = new_data['time_idx_new']
 
-# sort the dataframe by station_name and by time_idx
-
-new_data_sorted = new_data.sort_values(['station_name', 'time_idx'])
-
 # could create the directory here, but this has already been done!
 
-new_data_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_'+sampling+'_all_data_timeidx.csv', index=False)
+new_data.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_'+sampling+'_all_data_timeidx.csv', index=False)
 
 print('Data saved to csv')
 

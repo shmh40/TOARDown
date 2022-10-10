@@ -24,7 +24,7 @@ country = 'Sweden'
 sampling = 'dma8_non_strict' # or 'dma8'
 
 
-
+# read in both the dropnaed and total data for both env and dma8 
 country_dma8_df = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/'+sampling+'_data.csv')
 country_dma8_df_dropna = pd.read_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/dma8/'+sampling+'_dropna_data.csv')
 

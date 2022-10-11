@@ -82,19 +82,22 @@ for s in list(merged_env_dma8_df['station_name'].unique()):
 
 new_data["time_idx"] = new_data['time_idx_new']
 
-# sort the dataframe by station_name and by time_idx
+# sort the dataframe by station_name and by time_idx, and temp and no2
+# I think what I need to do here is to drop duplicates on the dataframe based on datetime and station_name...having sorted by temp and no2 
+# (non-nan values go to the top, so we keep first)
+# this way we get rid of duplicate records...but really i want to remove the row(s) with the most nans in it. This seems unclear in the pandas docs
 
-new_data_sorted = new_data.sort_values(['station_name', 'time_idx'], ignore_index=True)
+new_data_sorted = new_data.sort_values(['station_name', 'time_idx', 'temp', 'no2'], ignore_index=True) 
 
-duplicateRows = new_data_sorted[new_data_sorted.duplicated()]
-print('Number of duplicate rows:', len(duplicateRows))
+new_data_sorted_drop_dups = new_data_sorted.drop_duplicates(subset=['datetime', 'station_name'], keep='first')
 
-# I think what I need to do here is to drop duplicates on the dataframe based on datetime...having sorted by no2 too?
-# this way we get rid of duplicate records...but really i want to remove the row with the most nans in it. This seems unclear in the pandas docs
+# I should do an assert here to check that we do no have duplicates of date...
+
+assert new_data_sorted_drop_dups['station_name'].nunique() == new_data_sorted_drop_dups['time_idx'].value_counts().max()
 
 # could create the directory here, but this has already been done!
 
-new_data_sorted.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_'+sampling+'_all_data_timeidx.csv', index=False)
+new_data_sorted_drop_dups.to_csv('/home/jovyan/lustre_scratch/cas/european_data_new_temp/country/'+country+'/'+country+'_'+sampling+'_all_data_timeidx_drop_dups.csv', index=False)
 
 print('Data saved to csv')
 

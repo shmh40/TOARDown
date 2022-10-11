@@ -20,7 +20,7 @@ from functools import reduce
 # just need to swap the country in here!
 # also need to have dma8 or dma8_non_strict for the chemical data, defined by the string sampling here...
 
-country = 'United'
+country = 'UK'
 sampling = 'dma8_non_strict' # or 'dma8'
 
 
@@ -39,7 +39,7 @@ print('Data loading complete')
 dfs = [country_dma8_df, country_env_df]
 
 #merge all DataFrames into one
-merged_env_dma8_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'station_name', 'country', 'lat', 'lon', 'alt', 'station_etopo_alt', 
+merged_env_dma8_df = reduce(lambda  left,right: pd.merge(left,right,on=['datetime', 'station_name', 'lat', 'lon', 'alt', 'station_etopo_alt', 
                                                                         'station_rel_etopo_alt', 'station_type', 'landcover', 'toar_category', 
                                                                         'pop_density', 'max_5km_pop_density', 'max_25km_pop_density', 
                                                                         'nightlight_1km', 'nightlight_max_25km', 'nox_emi', 'omi_nox'],
